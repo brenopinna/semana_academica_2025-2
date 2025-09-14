@@ -36,7 +36,7 @@ Junto com o Node, será instalado também o **npm** (Node Package Manager), que 
 
 ## Preparando o banco de dados
 
-Para testar nosso banco, precisamos preenchê-lo com alguns dados. Para isso, usaremos a \[NOME DA API] como base.
+Para testar nosso banco, precisamos preenchê-lo com alguns dados. Para isso, usamos algumas APIs para conseguir esses dados e as colocamos no fim desse README para que posteriormente você possa acessá-las também. Não iremos realizar o consumo de cada uma por conta do tempo, mas leia as documentações delas para mais detalhes.
 
 Mas antes, precisamos falar do formato de arquivos **JSON**.
 
@@ -146,3 +146,8 @@ app.get("/comics", async (_, res) => {
 ```
 
 Com isso, temos a primeira versão da nossa API!
+
+# APIs utilizadas para obter os dados para povoar o banco de dados:
+
+- [Comic Vine](https://comicvine.gamespot.com/api/documentation#toc-0-43)
+- [MyAnimeList](https://myanimelist.net/clubs.php?cid=13727)
