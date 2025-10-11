@@ -8,7 +8,6 @@ const app = express()
 app.use(express.json())
 
 app.get("/comics", async (_, res) => {
-  console.log(process.env.DATABASE_BASEURL)
   try {
     const response = await fetch(process.env.DATABASE_BASEURL) // vai fazer uma requisicao ao servidor
     const results = await response.json() // vai converter o corpo dessa resposta em json
