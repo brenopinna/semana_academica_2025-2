@@ -1,14 +1,37 @@
-# Para quem já tiver os arquivos prontos e quiser apenas executar para testar
+# 📚 Sumário <!-- omit from toc -->
 
-1. `npm i`
-2. `npx json-server [NOME DO ARQUIVO].json`
-3. `node --watch [NOME DO ARQUIVO].js`
+- [⭐ Projeto Comics API](#-projeto-comics-api)
+- [🛠️ Iniciando a configuração do ambiente](#️-iniciando-a-configuração-do-ambiente)
+  - [Criando o projeto e instalando dependências](#criando-o-projeto-e-instalando-dependências)
+  - [Preparando o banco de dados](#preparando-o-banco-de-dados)
+  - [Rodando o json-server](#rodando-o-json-server)
+- [🌐 Criando nossa própria API](#-criando-nossa-própria-api)
+  - [Criando o servidor com Express](#criando-o-servidor-com-express)
+  - [Criando a primeira rota](#criando-a-primeira-rota)
+    - [Middleware?](#middleware)
+  - [Analisando os dados e criando mais rotas](#analisando-os-dados-e-criando-mais-rotas)
+- [🏗️ Profissionalizando o ambiente de desenvolvimento](#️-profissionalizando-o-ambiente-de-desenvolvimento)
+  - [Segurança e facilidade de manutenção: o arquivo `.env`](#segurança-e-facilidade-de-manutenção-o-arquivo-env)
+  - [Facilidade na execução de comandos: os scripts Node](#facilidade-na-execução-de-comandos-os-scripts-node)
+    - [Pacote `concurrently`](#pacote-concurrently)
+- [🎁 Extra](#-extra)
+  - [Rodando o projeto localmente](#rodando-o-projeto-localmente)
+    - [Instalação](#instalação)
+    - [Execução](#execução)
+  - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+  - [Estrutura de Arquivos do Projeto](#estrutura-de-arquivos-do-projeto)
+  - [APIs utilizadas para obter os dados para povoar o banco de dados:](#apis-utilizadas-para-obter-os-dados-para-povoar-o-banco-de-dados)
 
-[[toc]]
+---
 
-# Iniciando a configuração do ambiente
+# ⭐ Projeto Comics API
 
-Primeiro, é necessário que você tenha o [Node.js](https://nodejs.org/en/download) instalado na sua máquina.
+API simples para estudos de rotas, variáveis de ambiente, scripts Node e ExpressJS.  
+O sistema retorna dados de quadrinhos e permite o acesso individual por **ID**.
+
+# 🛠️ Iniciando a configuração do ambiente
+
+Primeiro, é necessário que você tenha o Node.js instalado na sua máquina.
 
 O Node.js é um **ambiente de execução do JavaScript fora do navegador**. Com ele, conseguimos rodar aplicações diretamente no computador.
 Junto com o Node, será instalado também o **npm** (Node Package Manager), que facilita o gerenciamento de pacotes e bibliotecas.
@@ -23,7 +46,7 @@ Junto com o Node, será instalado também o **npm** (Node Package Manager), que 
    npm init -y
    ```
 
-2. Instale o [`json-server`](https://github.com/typicode/json-server), que vamos usar para simular nosso banco de dados:
+2. Instale o `json-server`, que vamos usar para simular nosso banco de dados:
 
    ```bash
    npm i json-server
@@ -72,15 +95,38 @@ Pense na API como um garçom:
 
 ➡️ Experimente acessar a URL de um endpoint do `json-server` no navegador para ver os dados retornados.
 
-\[INCLUIR PRINT QUANDO A BASE ESTIVER PRONTA]
+```bash
+JSON Server started on PORT :3000
+Press CTRL-C to stop
+Watching comics.json...
+
+♡⸜(˶˃ ᵕ ˂˶)⸝♡
+
+Index:
+http://localhost:3000/
+
+Static files:
+Serving ./public directory if it exists
+
+Endpoints:
+http://localhost:3000/data
+```
+
+> Exemplo de output no terminal após iniciar o `json-server`
 
 ---
 
-# Criando nossa própria API
+# 🌐 Criando nossa própria API
 
 Não é interessante deixar os dados do banco totalmente abertos ao usuário. Por isso, vamos criar **nossa própria API**, que funcionará como intermediária entre o banco e a aplicação, mas com **controle e regras definidos por nós**.
 
-Para isso, usaremos o [`ExpressJS`](https://expressjs.com/), um framework simples para criar APIs.
+A melhor (e mais clássica) analogia para uma API é a do garçom. Imagine que você (usuário) está em um restaurante, e deseja algo da cozinha (um banco de dados, no nosso exemplo). Você não é permitido a entrar lá, pois os funcionários da cozinha tem suas próprias atribuições e procedimentos, e sua presença seria certamente um problema.
+
+Assim, surge o **garçom** (API), para estabelecer, dentro de algumas regras, a conexão entre você e a cozinha, levando os pedidos (requisições) de você para a cozinha e trazendo os pratos (resultados) da cozinha.
+
+Repare que em nenhum momento você entrou diretamente na cozinha, e nem sabe como funcionam os procedimentos internos desse ambiente. Assim, a API serve também para estabelecer maior **\*segurança e privacidade** na interação entre sistemas distintos.
+
+Para isso, usaremos o `ExpressJS`, um framework simples para criar APIs.
 
 Instale o Express:
 
@@ -149,6 +195,12 @@ app.get("/comics", async (_, res) => {
 
 Com isso, temos a primeira versão da nossa API!
 
+### Middleware?
+
+O middleware (_software do meio_, em tradução livre) se refere, de forma simplificada, a algum programa que é executado no meio de outros programas. No exemplo acima, temos um middleware que se "intromete" entre o usuário e o servidor, para converter as requisições e respostas para o formato JSON.
+
+Middlewares são presentes em diversos contextos na computação, então procure se familiarizar com esse conceito!
+
 ## Analisando os dados e criando mais rotas
 
 Podemos identificar que os itens retornados seguem o seguinte padrão:
@@ -187,7 +239,9 @@ app.get("/comics/:id", async (req, res) => {
 
 A passagem de `:id` na URL nos indica que esse campo não é um valor textual fixo, como `comics`, mas sim um **parâmetro**, que poderá assumir um valor diferente a cada requisição. Seu valor pode ser obtido a partir do atributo `req`, que se refere a um objeto que possui dados sobre a requisição realizada.
 
-# Segurança e facilidade de manutenção: o arquivo `.env`
+# 🏗️ Profissionalizando o ambiente de desenvolvimento
+
+## Segurança e facilidade de manutenção: o arquivo `.env`
 
 Repare que a URL do nosso banco de dados aparece em diversos lugares no nosso código. Imagine agora um sistema muito maior. Seria um grande trabalho mudar uma por uma caso nosso sistema mudasse o local da hospedagem, certo? Então, o que faz mais sentido é guardar esse valor em uma variável.
 
@@ -218,7 +272,7 @@ import dotenv from "dotenv"
 dotenv.config({ quiet: true }) // a partir daqui, as variaveis de ambiente serao reconhecidas!
 ```
 
-# Facilidade na execução: os scripts Node
+## Facilidade na execução de comandos: os scripts Node
 
 Foram apresentados aqui diversos comandos para rodar os servidores que estamos desenvolvendo, mas... pode ser um pouco chato e até mesmo improdutivo ficar executando vários e vários comandos a cada vez que se necessitar iniciar o servidor. Uma alternativa para reduzir esse trabalho é a utilização dos **scripts Node**, que através do uso de mnemônicos, reduzem o trabalho de escrita para executar tarefas que se repetem várias vezes no processo do desenvolvimento.
 
@@ -233,14 +287,78 @@ Assim, criarei os seguintes para facilitar a execução:
 ```json
 "scripts": {
     "db:start": "npx json-server comics.json",
-    "start": "node --watch main.js",
-    "dev": "npm run db:start & npm run start"
+    "start": "node --watch main.js"
   },
 ```
 
-Eu posso tanto executar separadamente os scripts para iniciar o banco de dados e o servidor, ou usar a alternativa do operador `&` para rodar ambos paralelamente em um único comando. Como esse projeto possui um escopo pequeno e não precisaremos nos ater a detalhes de logs, utilizarei essa estratpegia por simplicidade, que estará no script `dev`.
+### Pacote `concurrently`
 
-# APIs utilizadas para obter os dados para povoar o banco de dados:
+Eu posso executar em terminais separados os scripts para iniciar o banco de dados e o servidor, o que não seria um problema. Mas para fins de curiosidade, utilizarei o pacote `concurrently` para vermos como executar esses scripts paralelamente e, mais importante, com suporte a **múltiplas plataformas** (Windows, Linux, WSL, macOS, etc.).
+
+```bash
+npm i concurrently
+```
+
+Agora modificarei os scripts para utilizar esse pacote:
+
+```json
+"scripts": {
+    "db:start": "npx json-server comics.json",
+    "start": "node --watch main.js",
+    "dev": "concurrently \"npm run start\" \"npm run db:start\""
+  },
+```
+
+Com isso, o comando `npm run dev` faz os dois comandos serem executados na mesma hora, além de diferenciar os logs, simplificando nosso trabalho.
+
+Cabe ressaltar que, em um ambiente de desenvolvimento real, o banco de dados e o seu servidor estariam rodando em locais totalmente diferentes, o que não tornaria útil o uso desse pacote.
+
+# 🎁 Extra
+
+## Rodando o projeto localmente
+
+### Instalação
+
+```bash
+git clone git@github.com:brenopinna/semana_academica_2025-2.git
+cd server
+npm i;
+```
+
+### Execução
+
+```bash
+npm run dev
+```
+
+ou
+
+```bash
+npm run db:start
+npm run start
+```
+
+## Tecnologias Utilizadas
+
+- [Node.js](https://nodejs.org/en/download)
+- [ExpressJS](https://expressjs.com/)
+- [JSON Server](https://github.com/typicode/json-server)
+- [Dotenv](https://www.npmjs.com/package/dotenv)
+- [Concurrently](https://www.npmjs.com/package/concurrently)
+
+## Estrutura de Arquivos do Projeto
+
+```
+server/
+┣ main.js
+┣ comics.json
+┣ README.md
+┣ package.json
+┣ package-lock.json
+┗ .env
+```
+
+## APIs utilizadas para obter os dados para povoar o banco de dados:
 
 - [Comic Vine](https://comicvine.gamespot.com/api/documentation#toc-0-43)
 - [MyAnimeList](https://myanimelist.net/clubs.php?cid=13727)
