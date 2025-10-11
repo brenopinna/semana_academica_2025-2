@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run db:start\"",
-    "db:start": "npx json-server comics.json",
+    "db:start": "npx json-server comics.json --port 3001",
     "server": "node --watch main.js"
   },
   "keywords": [],
