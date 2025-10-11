@@ -147,6 +147,75 @@ app.get("/comics", async (_, res) => {
 
 Com isso, temos a primeira versão da nossa API!
 
+## Analisando os dados e criando mais rotas
+
+Podemos identificar que os itens retornados seguem o seguinte padrão:
+
+```json
+"data": [
+    ...,
+    {
+      "id": "...",
+      "title": "...",
+      "image": {
+        "medium": "...",
+        "large": "..."
+      }
+    },
+    ...
+]
+```
+
+Assim, podemos usar a **desestruturação** para obter dados sobre um único item, a partir de seu **id**. Com o express, isso é possível da seguinte forma:
+
+```js
+app.get("/comics/:id", async (req, res) => {
+  try {
+    const { id } = req.params // vai nos retornar os parâmetros da URL
+    const response = await fetch(`http://localhost:3000/data/${id}`) // vai fazer uma requisicao especificamente a um elemento, se existir.
+    const results = await response.json() // vai converter o corpo dessa resposta em json
+    res.status(200).json(results)
+  } catch (error) {
+    res.status(400).json({
+      error: "Nao foi possivel encontrar o item solicitado. Verifique o id fornecido.",
+    })
+  }
+})
+```
+
+A passagem de `:id` na URL nos indica que esse campo não é um valor textual fixo, como `comics`, mas sim um **parâmetro**, que poderá assumir um valor diferente a cada requisição. Seu valor pode ser obtido a partir do atributo `req`, que se refere a um objeto que possui dados sobre a requisição realizada.
+
+## Segurança e facilidade de manutenção: o arquivo `.env`
+
+Repare que a URL do nosso banco de dados aparece em diversos lugares no nosso código. Imagine agora um sistema muito maior. Seria um grande trabalho mudar uma por uma caso nosso sistema mudasse o local da hospedagem, certo? Então, o que faz mais sentido é guardar esse valor em uma variável.
+
+Entretanto, por questões de segurança, essas URLs sensíveis, como as que nos direcionam para o banco de dados ou algum outro local, não devem aparecer no código fonte, pois este pode ser acessado e isso gerar falhas de segurança. Assim, usamos os arquivos de **variáveis de ambiente**, ou seja, arquivos que não são compartilhados, cada ambiente de hospedagem vai ter o seu, e não será facilmente acessível por um usuário sem permissões.
+
+Colocarei algumas variáveis que fazem sentido pertencer ao contexto do ambiente no nosso arquivo `.env`.
+
+```
+PORT = 8080
+DATABASE_BASEURL = http://localhost:3000/data
+```
+
+Podemos acessá-las no nosso código através do objeto `process`, da seguinte maneira:
+
+```js
+process.env.NOME_DA_VARIAVEL
+```
+
+Entretanto, o Node não reconhece diretamente as variáveis de ambiente, e para isso precisamos do pacote `dotenv`, que será responsável por carregar os valores das variáveis do arquivo `.env` para o objeto `process.env` do Node!
+
+```bash
+npm i dotenv
+```
+
+```js
+import dotenv from "dotenv"
+
+dotenv.config({ quiet: true }) // a partir daqui, as variaveis de ambiente serao reconhecidas!
+```
+
 # APIs utilizadas para obter os dados para povoar o banco de dados:
 
 - [Comic Vine](https://comicvine.gamespot.com/api/documentation#toc-0-43)
