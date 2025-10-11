@@ -287,7 +287,7 @@ Assim, criarei os seguintes para facilitar a execução:
 ```json
 "scripts": {
     "db:start": "npx json-server comics.json",
-    "start": "node --watch main.js"
+    "server": "node --watch main.js"
   },
 ```
 
@@ -304,12 +304,12 @@ Agora modificarei os scripts para utilizar esse pacote:
 ```json
 "scripts": {
     "db:start": "npx json-server comics.json",
-    "start": "node --watch main.js",
-    "dev": "concurrently \"npm run start\" \"npm run db:start\""
+    "server": "node --watch main.js",
+    "start": "concurrently \"npm run server\" \"npm run db:start\""
   },
 ```
 
-Com isso, o comando `npm run dev` faz os dois comandos serem executados na mesma hora, além de diferenciar os logs, simplificando nosso trabalho.
+Com isso, o comando `npm run start` faz os dois comandos serem executados na mesma hora, além de diferenciar os logs, simplificando nosso trabalho.
 
 Cabe ressaltar que, em um ambiente de desenvolvimento real, o banco de dados e o seu servidor estariam rodando em locais totalmente diferentes, o que não tornaria útil o uso desse pacote.
 
