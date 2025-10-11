@@ -74,7 +74,7 @@ Pense na API como um garçom:
 
 ---
 
-## Criando nossa própria API
+# Criando nossa própria API
 
 Não é interessante deixar os dados do banco totalmente abertos ao usuário. Por isso, vamos criar **nossa própria API**, que funcionará como intermediária entre o banco e a aplicação, mas com **controle e regras definidos por nós**.
 
@@ -185,7 +185,7 @@ app.get("/comics/:id", async (req, res) => {
 
 A passagem de `:id` na URL nos indica que esse campo não é um valor textual fixo, como `comics`, mas sim um **parâmetro**, que poderá assumir um valor diferente a cada requisição. Seu valor pode ser obtido a partir do atributo `req`, que se refere a um objeto que possui dados sobre a requisição realizada.
 
-## Segurança e facilidade de manutenção: o arquivo `.env`
+# Segurança e facilidade de manutenção: o arquivo `.env`
 
 Repare que a URL do nosso banco de dados aparece em diversos lugares no nosso código. Imagine agora um sistema muito maior. Seria um grande trabalho mudar uma por uma caso nosso sistema mudasse o local da hospedagem, certo? Então, o que faz mais sentido é guardar esse valor em uma variável.
 
@@ -215,6 +215,28 @@ import dotenv from "dotenv"
 
 dotenv.config({ quiet: true }) // a partir daqui, as variaveis de ambiente serao reconhecidas!
 ```
+
+# Facilidade na execução: os scripts Node
+
+Foram apresentados aqui diversos comandos para rodar os servidores que estamos desenvolvendo, mas... pode ser um pouco chato e até mesmo improdutivo ficar executando vários e vários comandos a cada vez que se necessitar iniciar o servidor. Uma alternativa para reduzir esse trabalho é a utilização dos **scripts Node**, que através do uso de mnemônicos, reduzem o trabalho de escrita para executar tarefas que se repetem várias vezes no processo do desenvolvimento.
+
+No arquivo `package.json`, existe um campo `scripts`, que vai inicialmente apresentar somente um script de teste padrão. Você pode criar os seus próprios scripts lá dentro, sendo eles executáveis da seguinte forma:
+
+```bash
+npm run [NOME DO SCRIPT]
+```
+
+Assim, criarei os seguintes para facilitar a execução:
+
+```json
+"scripts": {
+    "db:start": "npx json-server comics.json",
+    "start": "node --watch main.js",
+    "dev": "npm run db:start & npm run start"
+  },
+```
+
+Eu posso tanto executar separadamente os scripts para iniciar o banco de dados e o servidor, ou usar a alternativa do operador `&` para rodar ambos paralelamente em um único comando. Como esse projeto possui um escopo pequeno e não precisaremos nos ater a detalhes de logs, utilizarei essa estratpegia por simplicidade, que estará no script `dev`.
 
 # APIs utilizadas para obter os dados para povoar o banco de dados:
 
