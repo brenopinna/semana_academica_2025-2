@@ -4,6 +4,8 @@
 2. `npx json-server [NOME DO ARQUIVO].json`
 3. `node --watch [NOME DO ARQUIVO].js`
 
+[[toc]]
+
 # Iniciando a configuração do ambiente
 
 Primeiro, é necessário que você tenha o [Node.js](https://nodejs.org/en/download) instalado na sua máquina.
