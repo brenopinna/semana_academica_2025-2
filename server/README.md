@@ -134,7 +134,7 @@ app.use(express.json()) // middleware para trabalhar com JSON nas requisições/
 
 app.get("/comics", async (_, res) => {
   try {
-    const response = await fetch("http://localhost:3000/results") // requisita dados do json-server
+    const response = await fetch("http://localhost:3000/data") // requisita dados do json-server
     const results = await response.json() // converte a resposta para JSON
     res.status(200).json(results)
   } catch (error) {

@@ -7,7 +7,7 @@ app.use(express.json())
 
 app.get("/comics", async (_, res) => {
   try {
-    const response = await fetch("http://localhost:3000/results") // vai fazer uma requisicao ao servidor
+    const response = await fetch("http://localhost:3000/data") // vai fazer uma requisicao ao servidor
     const results = await response.json() // vai converter o corpo dessa resposta em json
     res.status(200).json(results)
   } catch (error) {
