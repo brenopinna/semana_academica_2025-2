@@ -155,9 +155,9 @@ Antes de rodar, precisamos ajustar o `package.json` adicionando:
 
 ```json
 {
-  ...
-  "type": "module",
-  ...
+  // ...
+  "type": "module"
+  // ...
 }
 ```
 
@@ -207,7 +207,7 @@ Podemos identificar que os itens retornados seguem o seguinte padrão:
 
 ```json
 "data": [
-    ...,
+    // ...,
     {
       "id": "...",
       "title": "...",
@@ -216,7 +216,7 @@ Podemos identificar que os itens retornados seguem o seguinte padrão:
         "large": "..."
       }
     },
-    ...
+    // ...
 ]
 ```
 
