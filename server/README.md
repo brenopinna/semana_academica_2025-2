@@ -88,11 +88,6 @@ npx json-server [NOME_DO_ARQUIVO].json
 Após rodar, no terminal aparecerão os **endpoints** disponíveis.
 Esses endpoints fazem parte da **API** do `json-server`.
 
-Pense na API como um garçom:
-
-- você (cliente) não entra na cozinha (servidor/banco de dados);
-- o garçom (API) leva seu pedido e traz a resposta pronta.
-
 ➡️ Experimente acessar a URL de um endpoint do `json-server` no navegador para ver os dados retornados.
 
 ```bash
@@ -138,7 +133,7 @@ npm i express
 
 ## Criando o servidor com Express
 
-Crie um arquivo `.js` (ex.: `server.js`) e adicione:
+Crie um arquivo `.js` (ex.: `main.js`) e adicione:
 
 ```js
 import express from "express"
@@ -245,7 +240,7 @@ A passagem de `:id` na URL nos indica que esse campo não é um valor textual fi
 
 Repare que a URL do nosso banco de dados aparece em diversos lugares no nosso código. Imagine agora um sistema muito maior. Seria um grande trabalho mudar uma por uma caso nosso sistema mudasse o local da hospedagem, certo? Então, o que faz mais sentido é guardar esse valor em uma variável.
 
-Entretanto, por questões de segurança, essas URLs sensíveis, como as que nos direcionam para o banco de dados ou algum outro local, não devem aparecer no código fonte, pois este pode ser acessado e isso gerar falhas de segurança. Assim, usamos os arquivos de **variáveis de ambiente**, ou seja, arquivos que não são compartilhados, cada ambiente de hospedagem vai ter o seu, e não será facilmente acessível por um usuário sem permissões.
+Entretanto, por questões de segurança, essas URLs sensíveis, como as que nos direcionam para o banco de dados ou algum outro local que não deve ser de fácil acesso, não devem aparecer no código fonte, pois este pode ser acessado com certa facilidade, gerando assim falhas de segurança. Assim, usamos os arquivos de **variáveis de ambiente**, ou seja, arquivos que não são compartilhados, cada ambiente de hospedagem vai ter o seu, e não será facilmente acessível por um usuário sem permissões.
 
 Colocarei algumas variáveis que fazem sentido pertencer ao contexto do ambiente no nosso arquivo `.env`.
 
@@ -322,7 +317,7 @@ Cabe ressaltar que, em um ambiente de desenvolvimento real, o banco de dados e o
 ```bash
 git clone git@github.com:brenopinna/semana_academica_2025-2.git
 cd server
-npm i;
+npm i
 ```
 
 ### Execução
