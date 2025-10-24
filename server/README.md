@@ -14,6 +14,7 @@
   - [Segurança e facilidade de manutenção: o arquivo `.env`](#segurança-e-facilidade-de-manutenção-o-arquivo-env)
   - [Facilidade na execução de comandos: os scripts Node](#facilidade-na-execução-de-comandos-os-scripts-node)
     - [Pacote `concurrently`](#pacote-concurrently)
+- [Integrando com o Front-End](#integrando-com-o-front-end)
 - [🎁 Extra](#-extra)
   - [Rodando o projeto localmente](#rodando-o-projeto-localmente)
     - [Instalação](#instalação)
@@ -307,6 +308,32 @@ Agora modificarei os scripts para utilizar esse pacote:
 Com isso, o comando `npm run dev` faz os dois comandos serem executados na mesma hora, além de diferenciar os logs, simplificando nosso trabalho.
 
 Cabe ressaltar que, em um ambiente de desenvolvimento real, o banco de dados e o seu servidor estariam rodando em locais totalmente diferentes, o que não tornaria útil o uso desse pacote.
+
+# Integrando com o Front-End
+
+Quando tentamos acessar nossa API através de algum outro domínio, recebemos um erro semelhante ao seguinte:
+
+> Access to fetch at '[url da hospedagem da api]' from origin 'http://localhost:5500' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+Aqui, aparece um novo conceito: [**CORS**](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) (Cross-Origin Resource Sharing, em tradução livre: _Compartilhamento de Recursos Entre Origens_), que é basicamente algo que se refere a como recursos são compartilhados entre locais diferentes da web.
+
+Para configurar isso na nossa API, precisamos instalar o pacote **cors** do npm.
+
+```bash
+npm i cors
+```
+
+```js
+import cors from "cors"
+
+app.use(
+  cors({
+    origin: "url do seu frontend",
+  }),
+)
+```
+
+Como no caso dessa aplicação, queremos que vocês testem e possam consumir, usaremos a origin "\*", para que todas as origens possam consumir este recurso.
 
 # 🎁 Extra
 

@@ -1,9 +1,16 @@
 import express from "express"
 import dotenv from "dotenv"
+import cors from "cors"
 
 dotenv.config({ quiet: true }) // a partir daqui, as variaveis de ambiente serao reconhecidas!
 
 const app = express()
+
+app.use(
+  cors({
+    origin: "*",
+  }),
+) // aqui, permite que todas as urls facam requisicoes para a api
 
 app.use(express.json())
 
