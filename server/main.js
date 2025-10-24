@@ -1,10 +1,13 @@
 import express from "express"
 import dotenv from "dotenv"
 import { readFileSync } from "node:fs"
+import cors from "cors"
 
 dotenv.config({ quiet: true }) // a partir daqui, as variaveis de ambiente serao reconhecidas!
 
 const app = express()
+
+app.use(cors({ origin: "*" })) // permite acesso de todas as urls
 
 app.use(express.json())
 
